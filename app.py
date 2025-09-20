@@ -33,8 +33,13 @@ def main():
         from app_pages.project_summary import show_project_summary
         show_project_summary()
     elif page == "😀 Emotion Detection":
-        from app_pages.emotion_detection import show_emotion_detection
-        show_emotion_detection()
+        try:
+            from app_pages.emotion_detection import show_emotion_detection
+            show_emotion_detection()
+        except ImportError:
+            st.warning("⚠️ Using demo version due to import issues")
+            from app_pages.emotion_detection_demo import show_emotion_detection_demo
+            show_emotion_detection_demo()
     elif page == "📈 Data Analysis":
         from app_pages.data_analysis import show_data_analysis
         show_data_analysis()

@@ -1,8 +1,15 @@
 import streamlit as st
-from deepface import DeepFace
 from PIL import Image
 import numpy as np
 import time
+
+# Try to import DeepFace, handle gracefully if not available
+try:
+    from deepface import DeepFace
+    DEEPFACE_AVAILABLE = True
+except ImportError as e:
+    st.error(f"DeepFace import error: {str(e)}")
+    DEEPFACE_AVAILABLE = False
 
 def show_emotion_detection():
     st.title("😀 Emotion Detection")
@@ -26,6 +33,11 @@ def show_emotion_detection():
         
         # Analyze emotions
         if st.button("🔍 Analyze Emotions", type="primary"):
+            if not DEEPFACE_AVAILABLE:
+                st.error("❌ DeepFace is not available. Please check the installation.")
+                st.info("This is a demo version. In production, ensure DeepFace is properly installed.")
+                return
+                
             with st.spinner("Analyzing emotions..."):
                 try:
                     # Perform emotion analysis
