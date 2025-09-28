@@ -7,13 +7,21 @@ import time
 try:
     from deepface import DeepFace
     DEEPFACE_AVAILABLE = True
-    st.success("✅ DeepFace is available and ready to use!")
 except ImportError as e:
     st.error(f"DeepFace import error: {str(e)}")
+    DEEPFACE_AVAILABLE = False
+except Exception as e:
+    st.error(f"DeepFace error: {str(e)}")
     DEEPFACE_AVAILABLE = False
 
 def show_emotion_detection():
     st.title("😀 Emotion Detection")
+    
+    # Show DeepFace status
+    if DEEPFACE_AVAILABLE:
+        st.success("✅ DeepFace is available and ready to use!")
+    else:
+        st.warning("⚠️ DeepFace not available - using demo mode")
     
     st.markdown("""
     Upload an image containing a face to analyze the emotional expression. 
