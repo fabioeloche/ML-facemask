@@ -35,5 +35,5 @@ ENV QT_ASSISTANT_IGNORE_VERSIONS=1
 # Expose the port
 EXPOSE 8080
 
-# Command to run Streamlit application
-CMD streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false
+# Command to run Streamlit application with extended timeouts
+CMD streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false --server.maxUploadSize 200
