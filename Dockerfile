@@ -1,31 +1,32 @@
-# STEP 1: Use a stable base image for DeepFace/TensorFlow compatibility
-# Python 3.9 is a safer choice for older ML libraries than 3.11.
+# Use a Python version stable with DeepFace/TensorFlow/Keras
 FROM python:3.9-slim
 
-# STEP 2: Install necessary system dependencies for DeepFace/OpenCV
-# libgl1-mesa-glx and related packages fix the persistent 'libGL.so.1' error.
+# Set environment variable to prevent installation prompts from hanging the build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install critical system dependencies (libGL.so.1 fix)
+# This includes libgl1-mesa-glx and related multimedia libraries
 RUN apt-get update && \
     apt-get install -y \
     libgl1-mesa-glx \
     libsm6 \
     libxext6 \
     ffmpeg && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# STEP 3: Set up the application directory
+# Set up the application directory
 WORKDIR /app
 
-# STEP 4: Copy and install Python dependencies
+# Copy and install Python dependencies
 # This leverages Docker's cache if only code changes.
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# STEP 5: Copy the rest of your application code (including app.py)
+# Copy the rest of your application code
 COPY . .
 
-# STEP 6: Define the startup command for Streamlit on Cloud Run
-# This uses the required port 8080 and disables security checks (CORS/XSRF)
-# that interfere with Cloud Run's reverse proxy.
+# Define the startup command for Streamlit on Cloud Run
 CMD ["streamlit", "run", "app.py", \
     "--server.port=8080", \
     "--server.address=0.0.0.0", \
