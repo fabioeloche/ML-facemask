@@ -13,11 +13,16 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     libgomp1 \
     libgcc-s1 \
+    libglib2.0-dev \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Pre-download DeepFace models to avoid runtime issues
+RUN python -c "from deepface import DeepFace; print('DeepFace models downloaded')"
 
 # Copy the application code
 COPY . .

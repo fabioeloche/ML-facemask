@@ -7,6 +7,7 @@ import time
 try:
     from deepface import DeepFace
     DEEPFACE_AVAILABLE = True
+    st.success("✅ DeepFace is available and ready to use!")
 except ImportError as e:
     st.error(f"DeepFace import error: {str(e)}")
     DEEPFACE_AVAILABLE = False
@@ -33,6 +34,9 @@ def show_emotion_detection():
         
         # Analyze emotions
         if st.button("🔍 Analyze Emotions", type="primary"):
+            # Debug information
+            st.info(f"DeepFace Available: {DEEPFACE_AVAILABLE}")
+            
             if not DEEPFACE_AVAILABLE:
                 st.error("❌ DeepFace is not available. Please check the installation.")
                 st.info("This is a demo version. In production, ensure DeepFace is properly installed.")
