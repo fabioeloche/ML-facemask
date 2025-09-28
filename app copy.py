@@ -1,29 +1,6 @@
-# ====================================================================
-# FIX CRITICO PER CLOUD RUN (DEEPFACE/OPENCV HEADLESS)
-# Queste righe DEVONO essere le prime istruzioni eseguibili del file.
-# Forzano DeepFace/OpenCV a operare in modalità senza schermo,
-# risolvendo il persistente errore di sistema libGL.so.1.
-# ====================================================================
-import os
-os.environ['QT_QPA_PLATFORM'] = 'offscreen'
-os.environ['QT_ASSISTANT_IGNORE_VERSIONS'] = '1' 
-
-# --------------------------------------------------------------------
-# INIZIO DEL TUO CODICE APPLICATIVO
-# --------------------------------------------------------------------
 import streamlit as st
 import sys
-
-# === DEEPFACE AGGIUNTO E IMPORTATO QUI ===
-# L'importazione avviene DOPO i fix ambientali e PRIMA che Streamlit
-# avvii la logica dell'applicazione.
-try:
-    from deepface import DeepFace
-    DEEPFACE_AVAILABLE = True
-except ImportError:
-    DEEPFACE_AVAILABLE = False
-    st.warning("DeepFace not available - using demo mode")
-# ========================================
+import os
 
 # Add src directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
@@ -57,7 +34,6 @@ def main():
         show_project_summary()
     elif page == "😀 Emotion Detection":
         try:
-            # L'importazione di emotion_detection qui DEVE ora funzionare.
             from app_pages.emotion_detection import show_emotion_detection
             show_emotion_detection()
         except ImportError:

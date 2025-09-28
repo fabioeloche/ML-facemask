@@ -1,4 +1,0 @@
-pip install streamlit deepface pillow numpy
-
-
-streamlit run app.py
