@@ -38,7 +38,7 @@ st.set_page_config(
 
 # Main navigation
 def main():
-    st.sidebar.title("🎭 Emotion Recognition System")
+    st.sidebar.title("Marketing New product recognition")
     
     # Navigation menu
     page = st.sidebar.selectbox(
