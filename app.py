@@ -6,7 +6,14 @@
 # ====================================================================
 import os
 os.environ['QT_QPA_PLATFORM'] = 'offscreen'
-os.environ['QT_ASSISTANT_IGNORE_VERSIONS'] = '1' 
+os.environ['QT_ASSISTANT_IGNORE_VERSIONS'] = '1'
+os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '1'
+os.environ['OPENCV_IO_ENABLE_JASPER'] = '1'
+os.environ['OPENCV_VIDEOIO_PRIORITY_MSMF'] = '0'
+os.environ['OPENCV_VIDEOIO_PRIORITY_DSHOW'] = '0'
+os.environ['OPENCV_VIDEOIO_PRIORITY_V4L2'] = '0'
+os.environ['OPENCV_VIDEOIO_PRIORITY_GSTREAMER'] = '0'
+os.environ['OPENCV_VIDEOIO_PRIORITY_FFMPEG'] = '0' 
 
 # --------------------------------------------------------------------
 # INIZIO DEL TUO CODICE APPLICATIVO
@@ -20,8 +27,13 @@ import sys
 try:
     from deepface import DeepFace
     DEEPFACE_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     DEEPFACE_AVAILABLE = False
+    print(f"DeepFace import error: {e}")
+    st.warning("DeepFace not available - using demo mode")
+except Exception as e:
+    DEEPFACE_AVAILABLE = False
+    print(f"DeepFace initialization error: {e}")
     st.warning("DeepFace not available - using demo mode")
 # ========================================
 
